@@ -1,6 +1,6 @@
 package com.bobocode.basics;
 
-import java.util.Map;
+import java.util.*;
 
 /**
  * {@link HeterogeneousMaxHolder} is a multi-type container that holds maximum values per each type. It's kind of a
@@ -9,12 +9,14 @@ import java.util.Map;
  * It's based on the {@link Map} and provides an API that allows to put a value by type, and get a max value by type.
  * <p>
  * <p>
- * <strong>TODO: to get the most out of your learning, <a href="https://www.bobocode.com/learn">visit our website</a></strong>
+ * <strong>
  * <p>
  *
  * @author Taras Boychuk
  */
 public class HeterogeneousMaxHolder {
+
+    private Map<Class<?>, Object> maxValueMap = new HashMap();
 
     /**
      * A method put stores a provided value by its type, if the value is greater than the current maximum. In other words, the logic
@@ -30,7 +32,30 @@ public class HeterogeneousMaxHolder {
      * @param <T>   value type parameter
      * @return a smaller value among the provided value and the current maximum
      */
-    // todo: implement a method according to javadoc
+    public <T extends Comparable<? super T>> T put(Class<T> key, T value){
+
+        if(!maxValueMap.containsKey(key) || isValueGreaterThanStoredValue(key, value)){
+
+            T returnValue = (T) maxValueMap.get(key);
+            maxValueMap.put(key, value);
+            return returnValue;
+
+        }else {
+            return value;
+        }
+    }
+
+    /**
+     * Checks if the provided value is greater than the one currently stored for the given type
+     *
+     * @param key   a provided value type
+     * @param value a value to put
+     * @param <T>   value type parameter
+     * @return true if the value is greater than the one currently stored for the given type
+     */
+    private <T extends Comparable<? super T>> boolean isValueGreaterThanStoredValue(Class<T> key, T value) {
+        return value.compareTo((T) maxValueMap.get(key)) > 0;
+    }
 
     /**
      * An overloaded method put implements the same logic using a custom comparator. A given comparator is wrapped with

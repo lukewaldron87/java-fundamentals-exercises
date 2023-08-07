@@ -211,8 +211,6 @@ public class CrazyGenerics {
          */
         public static <T> Optional<T> findMax(Iterable<T> elements, Comparator<T> comparator){
 
-            // todo refactor to functional approach
-
             Optional<T> max = Optional.empty();
 
             for(T element: elements){
