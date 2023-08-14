@@ -2,11 +2,12 @@ package com.bobobode.cs;
 
 import com.bobocode.util.ExerciseNotCompletedException;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * A class that consists of static methods only and provides util methods for {@link Node}.
  * <p><p>
- * <strong>TODO: to get the most out of your learning, <a href="https://www.bobocode.com/learn">visit our website</a></strong>
- * <p>
  *
  * @author Taras Boychuk
  */
@@ -22,7 +23,7 @@ public class Nodes {
      * @return a new instance of {@link Node}
      */
     public static <T> Node<T> create(T element) {
-        throw new ExerciseNotCompletedException(); // todo:
+        return new Node<T>(element);
     }
 
     /**
@@ -33,7 +34,7 @@ public class Nodes {
      * @param <T>    a genetic type
      */
     public static <T> void link(Node<T> first, Node<T> second) {
-        throw new ExerciseNotCompletedException(); // todo:
+        first.setNext(second);
     }
 
     /**
@@ -46,7 +47,7 @@ public class Nodes {
      * @return a reference to a first node created based on firstElement
      */
     public static <T> Node<T> pairOf(T firstElement, T secondElement) {
-        throw new ExerciseNotCompletedException(); // todo:
+        return new Node<T>(firstElement, new Node<>(secondElement));
     }
 
     /**
@@ -60,7 +61,10 @@ public class Nodes {
      * @return a reference to the first node
      */
     public static <T> Node<T> closedPairOf(T firstElement, T secondElement) {
-        throw new ExerciseNotCompletedException(); // todo:
+        Node<T> secondNode = new Node<>(secondElement);
+        Node<T> firstNode = new Node<>(firstElement, secondNode);
+        secondNode.setNext(firstNode);
+        return firstNode;
     }
 
     /**
@@ -72,7 +76,20 @@ public class Nodes {
      * @return a reference to the first element of the chain
      */
     public static <T> Node<T> chainOf(T... elements) {
-        throw new ExerciseNotCompletedException(); // todo:
+
+        T[] elementArray = elements;
+
+        Node rootNode = new Node<T>(elementArray[0]);
+
+        Node lastNode = rootNode;
+
+        for(int i=1; i<elementArray.length; i++){
+            Node<T> node = new Node<>(elementArray[i]);
+            lastNode.setNext(node);
+            lastNode = node;
+        }
+
+        return rootNode;
     }
 
     /**
@@ -85,6 +102,20 @@ public class Nodes {
      * @return a reference to the first element of the chain
      */
     public static <T> Node<T> circleOf(T... elements) {
-        throw new ExerciseNotCompletedException(); // todo:
+        T[] elementArray = elements;
+
+        Node rootNode = new Node<T>(elementArray[0]);
+
+        Node lastNode = rootNode;
+
+        for(int i=1; i<elementArray.length; i++){
+            Node<T> node = new Node<>(elementArray[i]);
+            lastNode.setNext(node);
+            lastNode = node;
+        }
+
+        lastNode.setNext(rootNode);
+
+        return rootNode;
     }
 }
