@@ -76,20 +76,7 @@ public class Nodes {
      * @return a reference to the first element of the chain
      */
     public static <T> Node<T> chainOf(T... elements) {
-
-        T[] elementArray = elements;
-
-        Node rootNode = new Node<T>(elementArray[0]);
-
-        Node lastNode = rootNode;
-
-        for(int i=1; i<elementArray.length; i++){
-            Node<T> node = new Node<>(elementArray[i]);
-            lastNode.setNext(node);
-            lastNode = node;
-        }
-
-        return rootNode;
+        return createLinkedLisOfNodes(elements, false);
     }
 
     /**
@@ -102,6 +89,10 @@ public class Nodes {
      * @return a reference to the first element of the chain
      */
     public static <T> Node<T> circleOf(T... elements) {
+        return createLinkedLisOfNodes(elements, true);
+    }
+
+    private static <T> Node createLinkedLisOfNodes(T[] elements, boolean isCircular) {
         T[] elementArray = elements;
 
         Node rootNode = new Node<T>(elementArray[0]);
@@ -114,7 +105,9 @@ public class Nodes {
             lastNode = node;
         }
 
-        lastNode.setNext(rootNode);
+        if(isCircular) {
+            lastNode.setNext(rootNode);
+        }
 
         return rootNode;
     }
